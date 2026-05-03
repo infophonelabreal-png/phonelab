@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 // ─── DATA ────────────────────────────────────────────────────────────────────
 
@@ -451,6 +451,72 @@ function ContactSection() {
   );
 }
 
+function PrivacyModal({ onClose }) {
+  return (
+    <div style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.9)", zIndex: 200, display: "flex", alignItems: "center", justifyContent: "center", padding: 16 }} onClick={onClose}>
+      <div style={{ background: "#13131a", border: "1px solid #1e1e2e", borderRadius: 20, padding: 28, width: "100%", maxWidth: 540, maxHeight: "85vh", overflowY: "auto" }} onClick={e => e.stopPropagation()}>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 20 }}>
+          <h2 style={{ fontFamily: "'Syne',sans-serif", fontSize: 20, fontWeight: 800, color: "#e8e8f0" }}>Privacy Policy</h2>
+          <button onClick={onClose} style={{ background: "none", border: "none", color: "#6b6b88", fontSize: 22, cursor: "pointer" }}>✕</button>
+        </div>
+        {[
+          ["Titolare del trattamento", "PhoneLab – info@phonelab.pro – www.phonelab.pro"],
+          ["Dati raccolti", "Raccogliamo esclusivamente l'indirizzo email quando l'utente lo fornisce volontariamente per ricevere notifiche di offerte o per contattarci. Non raccogliamo dati sensibili."],
+          ["Finalità del trattamento", "Le email vengono utilizzate esclusivamente per: (1) inviare notifiche quando un telefono salvato va in offerta; (2) rispondere alle richieste di contatto. Non utilizziamo i dati per marketing non richiesto."],
+          ["Cookie", "Questo sito utilizza cookie tecnici necessari al funzionamento e cookie analitici anonimi per misurare le visite (Vercel Analytics). Non utilizziamo cookie di profilazione."],
+          ["Link affiliati Amazon", "Il sito contiene link affiliati al Programma di Affiliazione Amazon EU. Quando acquisti tramite i nostri link, potremmo ricevere una commissione senza costi aggiuntivi per te."],
+          ["Conservazione dei dati", "I dati email vengono conservati finché l'utente non richiede la cancellazione scrivendo a info@phonelab.pro."],
+          ["Diritti dell'utente", "Hai diritto di accedere, modificare o cancellare i tuoi dati in qualsiasi momento scrivendo a info@phonelab.pro. Puoi anche presentare reclamo al Garante della Privacy (www.garanteprivacy.it)."],
+          ["Aggiornamenti", "Questa policy può essere aggiornata. Ultimo aggiornamento: maggio 2025."],
+        ].map(([title, text]) => (
+          <div key={title} style={{ marginBottom: 16 }}>
+            <div style={{ fontFamily: "'Syne',sans-serif", fontSize: 13, fontWeight: 800, color: "#00e5ff", marginBottom: 4 }}>{title}</div>
+            <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 13, color: "#a0a0b8", lineHeight: 1.7 }}>{text}</p>
+          </div>
+        ))}
+        <button onClick={onClose} style={{ width: "100%", padding: 12, background: "#00e5ff", color: "#000", border: "none", borderRadius: 10, fontFamily: "'Syne',sans-serif", fontSize: 14, fontWeight: 800, cursor: "pointer", marginTop: 8 }}>
+          Ho capito ✓
+        </button>
+      </div>
+    </div>
+  );
+}
+
+function CookieBanner({ onPrivacy }) {
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    const accepted = localStorage.getItem("phonelab_cookies");
+    if (!accepted) setVisible(true);
+  }, []);
+
+  const accept = () => {
+    localStorage.setItem("phonelab_cookies", "true");
+    setVisible(false);
+  };
+
+  if (!visible) return null;
+
+  return (
+    <div style={{ position: "fixed", bottom: 0, left: 0, right: 0, background: "#13131a", borderTop: "1px solid #1e1e2e", padding: "16px 20px", zIndex: 150, display: "flex", flexDirection: "column", gap: 12 }}>
+      <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 13, color: "#a0a0b8", lineHeight: 1.6, margin: 0 }}>
+        🍪 Usiamo cookie tecnici e analitici anonimi per migliorare la tua esperienza. Conteniamo link affiliati Amazon —
+        <button onClick={onPrivacy} style={{ background: "none", border: "none", color: "#00e5ff", fontFamily: "'DM Sans',sans-serif", fontSize: 13, cursor: "pointer", textDecoration: "underline", padding: "0 4px" }}>
+          leggi la Privacy Policy
+        </button>
+      </p>
+      <div style={{ display: "flex", gap: 10 }}>
+        <button onClick={accept} style={{ flex: 1, padding: "10px", background: "#00e5ff", color: "#000", border: "none", borderRadius: 8, fontFamily: "'Syne',sans-serif", fontSize: 13, fontWeight: 800, cursor: "pointer" }}>
+          ✓ Accetto
+        </button>
+        <button onClick={onPrivacy} style={{ padding: "10px 16px", background: "transparent", color: "#6b6b88", border: "1px solid #1e1e2e", borderRadius: 8, fontFamily: "'DM Sans',sans-serif", fontSize: 13, cursor: "pointer" }}>
+          Dettagli
+        </button>
+      </div>
+    </div>
+  );
+}
+
 // ─── MAIN APP ─────────────────────────────────────────────────────────────────
 
 export default function PhoneAdvisor() {
@@ -463,6 +529,7 @@ export default function PhoneAdvisor() {
   const [compareOpen, setCompareOpen] = useState(false);
   const [shareMsg, setShareMsg] = useState("");
   const [budgetNote, setBudgetNote] = useState("");
+  const [privacyOpen, setPrivacyOpen] = useState(false);
 
   const currentQ = questions[step - 1];
   const progress = step === 0 ? 0 : (step / questions.length) * 100;
@@ -640,7 +707,10 @@ Dai esattamente 3 telefoni ordinati. Prezzi accurati Italia 2024-2025.`;
           <CompareModal phone1={phones[0]} phone2={phones[1]} onClose={() => setCompareOpen(false)} />
         )}
 
-        <p style={{ fontFamily: "'DM Sans',sans-serif", color: "#1e1e2e", fontSize: 11, textAlign: "center", marginTop: 24 }}>Powered by AI</p>
+        {privacyOpen && <PrivacyModal onClose={() => setPrivacyOpen(false)} />}
+        <CookieBanner onPrivacy={() => setPrivacyOpen(true)} />
+
+        <p style={{ fontFamily: "'DM Sans',sans-serif", color: "#1e1e2e", fontSize: 11, textAlign: "center", marginTop: 24 }}>Powered by AI · <span onClick={() => setPrivacyOpen(true)} style={{ cursor: "pointer", color: "#2a2a3a", textDecoration: "underline" }}>Privacy Policy</span></p>
       </div>
     </div>
   );
