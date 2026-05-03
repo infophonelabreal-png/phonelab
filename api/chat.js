@@ -4,19 +4,34 @@ export default async function handler(req, res) {
   }
 
   try {
-    const response = await fetch("https://api.anthropic.com/v1/messages", {
+    const { messages } = req.body;
+
+    const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "x-api-key": process.env.ANTHROPIC_API_KEY,
-        "anthropic-version": "2023-06-01",
+        "Authorization": `Bearer ${process.env.GROQ_API_KEY}`,
       },
-      body: JSON.stringify(req.body),
+      body: JSON.stringify({
+        model: "llama-3.3-70b-versatile",
+        messages: [
+          { role: "system", content: "Sei un esperto di smartphone italiano. Rispondi sempre e solo in JSON valido senza testo aggiuntivo né backtick." },
+          { role: "user", content: messages[0].content }
+        ],
+        max_tokens: 1500,
+        temperature: 0.7,
+      }),
     });
 
     const data = await response.json();
-    res.status(200).json(data);
+    const text = data.choices?.[0]?.message?.content || "";
+
+    // Restituisce nel formato compatibile con il frontend
+    res.status(200).json({
+      content: [{ type: "text", text }]
+    });
   } catch (error) {
     res.status(500).json({ error: "Errore API" });
   }
 }
+
