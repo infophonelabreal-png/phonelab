@@ -36,10 +36,49 @@ const FEATURES = [
   { emoji: "🛒", title: "Link Amazon", desc: "Compra subito al prezzo migliore con un click", color: "#ea580c" },
 ];
 
+const PHONE_IMAGES = {
+  "iphone 16 pro": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/IPhone_16_Pro_in_Desert_Titanium.jpg/250px-IPhone_16_Pro_in_Desert_Titanium.jpg",
+  "iphone 16": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/IPhone_16_in_Teal.jpg/250px-IPhone_16_in_Teal.jpg",
+  "iphone 15 pro": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/36/IPhone_15_Pro_in_Natural_Titanium.jpg/250px-IPhone_15_Pro_in_Natural_Titanium.jpg",
+  "iphone 15": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4a/IPhone_15.jpg/250px-IPhone_15.jpg",
+  "iphone 14": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/15/IPhone_14.png/250px-IPhone_14.png",
+  "samsung galaxy s25 ultra": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/60/Samsung_Galaxy_S24_Ultra.jpg/250px-Samsung_Galaxy_S24_Ultra.jpg",
+  "samsung galaxy s25": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/Samsung_Galaxy_S24.jpg/250px-Samsung_Galaxy_S24.jpg",
+  "samsung galaxy s24 ultra": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/60/Samsung_Galaxy_S24_Ultra.jpg/250px-Samsung_Galaxy_S24_Ultra.jpg",
+  "samsung galaxy s24": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/Samsung_Galaxy_S24.jpg/250px-Samsung_Galaxy_S24.jpg",
+  "samsung galaxy a56": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/83/Samsung_Galaxy_A55_5G.jpg/250px-Samsung_Galaxy_A55_5G.jpg",
+  "samsung galaxy a55": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/83/Samsung_Galaxy_A55_5G.jpg/250px-Samsung_Galaxy_A55_5G.jpg",
+  "samsung galaxy a35": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e5/Samsung_Galaxy_A35_5G.jpg/250px-Samsung_Galaxy_A35_5G.jpg",
+  "samsung galaxy a16": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e5/Samsung_Galaxy_A35_5G.jpg/250px-Samsung_Galaxy_A35_5G.jpg",
+  "google pixel 9 pro": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f3/Google_Pixel_9.jpg/250px-Google_Pixel_9.jpg",
+  "google pixel 9": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f3/Google_Pixel_9.jpg/250px-Google_Pixel_9.jpg",
+  "google pixel 8a": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/56/Google_Pixel_8a_Aloe.jpg/250px-Google_Pixel_8a_Aloe.jpg",
+  "google pixel 8": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ee/Google_Pixel_8.jpg/250px-Google_Pixel_8.jpg",
+  "xiaomi redmi note 14": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6a/Xiaomi_Redmi_Note_13_Pro%2B.jpg/250px-Xiaomi_Redmi_Note_13_Pro%2B.jpg",
+  "xiaomi redmi note 13": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6a/Xiaomi_Redmi_Note_13_Pro%2B.jpg/250px-Xiaomi_Redmi_Note_13_Pro%2B.jpg",
+  "xiaomi 14": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e9/Xiaomi_14.jpg/250px-Xiaomi_14.jpg",
+  "oneplus 13": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d8/OnePlus_12.jpg/250px-OnePlus_12.jpg",
+  "oneplus 12": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d8/OnePlus_12.jpg/250px-OnePlus_12.jpg",
+  "motorola edge 50": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Motorola_Edge_50_Pro.jpg/250px-Motorola_Edge_50_Pro.jpg",
+  "motorola moto g85": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Motorola_Edge_50_Pro.jpg/250px-Motorola_Edge_50_Pro.jpg",
+};
+
 // ─── HELPERS ─────────────────────────────────────────────────────────────────
 
 function findImage(name = "") {
-  return `/api/image?phone=${encodeURIComponent(name)}`;
+  const lower = name.toLowerCase().trim();
+  // Ricerca esatta
+  for (const [key, url] of Object.entries(PHONE_IMAGES)) {
+    if (lower.includes(key)) return url;
+  }
+  // Ricerca parziale per brand + modello
+  const words = lower.split(" ").filter(w => w.length > 2);
+  let bestUrl = null, bestScore = 0;
+  for (const [key, url] of Object.entries(PHONE_IMAGES)) {
+    const score = words.filter(w => key.includes(w)).length;
+    if (score > bestScore) { bestScore = score; bestUrl = url; }
+  }
+  return bestUrl || null;
 }
 
 function getBrandColor(name = "") {
@@ -320,8 +359,8 @@ function PhoneCard({ phone, rank, showSavings, dreamName, dreamPrice, onCompare,
   const brand = getBrandColor(phone.name);
   const isTop = rank === 0;
   const recPrice = parsePrice(phone.price);
-  const imageUrl = findImageUrl(phone.name);
-  const initials = phone.name.split(" ").slice(0, 2).map(w => w[0]).join("").toUpperCase();
+  const imageUrl = findImage(phone.name);
+  const showImage = imageUrl && !imgFailed;
   return (
     <div style={{ background: "#13131a", border: `1px solid ${isTop?"#00e5ff55":"#1e1e2e"}`, borderRadius: 16, overflow: "hidden", marginBottom: 16, position: "relative" }}>
       {isTop && (
@@ -329,16 +368,14 @@ function PhoneCard({ phone, rank, showSavings, dreamName, dreamPrice, onCompare,
       )}
       <div style={{ height: 155, background: `linear-gradient(135deg, ${brand}33, #0a0a0f)`, display: "flex", alignItems: "center", justifyContent: "center", borderBottom: "1px solid #1e1e2e", position: "relative", overflow: "hidden" }}>
         <div style={{ position: "absolute", inset: 0, background: `radial-gradient(ellipse at 40% 60%, ${brand}22, transparent 70%)` }} />
-        {!imgFailed && imageUrl ? (
-          <img src={imageUrl} alt={phone.name}
+        {showImage ? (
+          <img src={imageUrl} alt={phone.name} referrerPolicy="no-referrer" crossOrigin="anonymous"
             onError={() => setImgFailed(true)}
             style={{ maxHeight: 135, maxWidth: "55%", objectFit: "contain", position: "relative", zIndex: 1, filter: "drop-shadow(0 12px 28px rgba(0,0,0,0.6))" }} />
         ) : (
           <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 6, zIndex: 1 }}>
-            <div style={{ width: 80, height: 80, borderRadius: 20, background: `${brand}44`, border: `2px solid ${brand}66`, display: "flex", alignItems: "center", justifyContent: "center" }}>
-              <span style={{ fontFamily: "'Syne',sans-serif", fontSize: 28, fontWeight: 800, color: "#e8e8f0" }}>{initials}</span>
-            </div>
-            <span style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 11, color: "#6b6b88", textAlign: "center", maxWidth: 150 }}>{phone.name}</span>
+            <span style={{ fontSize: 48 }}>📱</span>
+            <span style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 11, color: "#6b6b88", textAlign: "center", maxWidth: 130 }}>{phone.name}</span>
           </div>
         )}
       </div>
