@@ -249,10 +249,26 @@ function CompareModal({ phone1, phone2, onClose }) {
 function EmailCapture() {
   const [email, setEmail] = useState("");
   const [sent, setSent] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  const handleSubmit = async () => {
+    if (!email.includes("@")) return;
+    setLoading(true);
+    try {
+      await fetch("/api/subscribe", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, type: "general" }),
+      });
+    } catch {}
+    setSent(true);
+    setLoading(false);
+  };
+
   if (sent) return (
     <div style={{ background: "#0a1a0a", border: "1px solid #4ade8044", borderRadius: 12, padding: "16px 20px", marginBottom: 16, textAlign: "center" }}>
       <div style={{ fontSize: 28, marginBottom: 6 }}>✅</div>
-      <p style={{ fontFamily: "'DM Sans',sans-serif", color: "#4ade80", fontSize: 14 }}>Perfetto! Ti avviseremo quando ci saranno offerte.</p>
+      <p style={{ fontFamily: "'DM Sans',sans-serif", color: "#4ade80", fontSize: 14 }}>Perfetto! Controlla la tua email per la conferma.</p>
     </div>
   );
   return (
@@ -262,9 +278,9 @@ function EmailCapture() {
       <div style={{ display: "flex", gap: 8 }}>
         <input value={email} onChange={e => setEmail(e.target.value)} placeholder="tua@email.it"
           style={{ flex: 1, padding: "10px 14px", background: "#13131a", border: "1px solid #1e1e2e", borderRadius: 8, color: "#e8e8f0", fontFamily: "'DM Sans',sans-serif", fontSize: 14, outline: "none" }} />
-        <button onClick={() => email.includes("@") && setSent(true)}
-          style={{ padding: "10px 16px", background: "#00e5ff", color: "#000", border: "none", borderRadius: 8, fontFamily: "'Syne',sans-serif", fontSize: 13, fontWeight: 800, cursor: "pointer" }}>
-          Iscriviti
+        <button onClick={handleSubmit} disabled={loading}
+          style={{ padding: "10px 16px", background: "#00e5ff", color: "#000", border: "none", borderRadius: 8, fontFamily: "'Syne',sans-serif", fontSize: 13, fontWeight: 800, cursor: "pointer", opacity: loading ? 0.7 : 1 }}>
+          {loading ? "..." : "Iscriviti"}
         </button>
       </div>
     </div>
@@ -301,11 +317,11 @@ function WishlistButton({ phoneName }) {
   const handleSave = async () => {
     if (!email.includes("@")) return;
     try {
-      const key = `wishlist:${phoneName.replace(/\s+/g, "-").toLowerCase()}`;
-      const existing = await window.storage.get(key).catch(() => null);
-      const emails = existing ? JSON.parse(existing.value) : [];
-      if (!emails.includes(email)) emails.push(email);
-      await window.storage.set(key, JSON.stringify(emails));
+      await fetch("/api/subscribe", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, phone: phoneName, type: "wishlist" }),
+      });
     } catch {}
     setSaved(true);
     setOpen(false);
