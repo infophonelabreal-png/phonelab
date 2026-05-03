@@ -85,7 +85,7 @@ function whatsappMsg(phones) {
   let msg = `📱 Ho trovato il mio smartphone perfetto!\n\n`;
   msg += `✅ *${top.name}* a ${top.price}\n\n`;
   msg += `🛒 Compralo subito su Amazon → ${amazonLink}\n\n`;
-  msg += `Scopri anche tu quale telefono fa per te 👉 [www.tuosito.it]`;
+  msg += `Scopri anche tu quale telefono fa per te 👉 www.phonelab.pro`;
   return encodeURIComponent(msg);
 }
 
@@ -491,7 +491,7 @@ Rispondi SOLO con JSON valido senza testo aggiuntivo né backtick.
 Dai esattamente 3 telefoni ordinati. Prezzi accurati Italia 2024-2025.`;
 
     try {
-      const res = await fetch("https://api.anthropic.com/v1/messages", {
+      const res = await fetch("/api/chat", {
         method: "POST", headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ model: "claude-sonnet-4-20250514", max_tokens: 1500, messages: [{ role: "user", content: prompt }] }),
       });
@@ -534,6 +534,7 @@ Dai esattamente 3 telefoni ordinati. Prezzi accurati Italia 2024-2025.`;
         {step === 0 && (
           <div className="fu" style={{ textAlign: "center", paddingTop: 24 }}>
             <div style={{ fontSize: 64, marginBottom: 16 }}>📱</div>
+            <div style={{ fontFamily: "'Syne',sans-serif", fontSize: 14, fontWeight: 800, color: "#00e5ff", letterSpacing: 4, marginBottom: 8, textTransform: "uppercase" }}>PhoneLab</div>
             <h1 style={{ fontFamily: "'Syne',sans-serif", fontSize: 30, fontWeight: 800, color: "#e8e8f0", lineHeight: 1.2, marginBottom: 10 }}>
               Trova il tuo<br /><span style={{ color: "#00e5ff" }}>smartphone perfetto</span>
             </h1>
