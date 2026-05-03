@@ -37,48 +37,39 @@ const FEATURES = [
 ];
 
 const PHONE_IMAGES = {
-  "iphone 16 pro": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/IPhone_16_Pro_in_Desert_Titanium.jpg/250px-IPhone_16_Pro_in_Desert_Titanium.jpg",
-  "iphone 16": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/IPhone_16_in_Teal.jpg/250px-IPhone_16_in_Teal.jpg",
-  "iphone 15 pro": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/36/IPhone_15_Pro_in_Natural_Titanium.jpg/250px-IPhone_15_Pro_in_Natural_Titanium.jpg",
-  "iphone 15": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4a/IPhone_15.jpg/250px-IPhone_15.jpg",
-  "iphone 14": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/15/IPhone_14.png/250px-IPhone_14.png",
-  "samsung galaxy s25 ultra": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/60/Samsung_Galaxy_S24_Ultra.jpg/250px-Samsung_Galaxy_S24_Ultra.jpg",
-  "samsung galaxy s25": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/Samsung_Galaxy_S24.jpg/250px-Samsung_Galaxy_S24.jpg",
-  "samsung galaxy s24 ultra": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/60/Samsung_Galaxy_S24_Ultra.jpg/250px-Samsung_Galaxy_S24_Ultra.jpg",
-  "samsung galaxy s24": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/Samsung_Galaxy_S24.jpg/250px-Samsung_Galaxy_S24.jpg",
-  "samsung galaxy a56": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/83/Samsung_Galaxy_A55_5G.jpg/250px-Samsung_Galaxy_A55_5G.jpg",
-  "samsung galaxy a55": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/83/Samsung_Galaxy_A55_5G.jpg/250px-Samsung_Galaxy_A55_5G.jpg",
-  "samsung galaxy a35": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e5/Samsung_Galaxy_A35_5G.jpg/250px-Samsung_Galaxy_A35_5G.jpg",
-  "samsung galaxy a16": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e5/Samsung_Galaxy_A35_5G.jpg/250px-Samsung_Galaxy_A35_5G.jpg",
-  "google pixel 9 pro": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f3/Google_Pixel_9.jpg/250px-Google_Pixel_9.jpg",
-  "google pixel 9": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f3/Google_Pixel_9.jpg/250px-Google_Pixel_9.jpg",
-  "google pixel 8a": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/56/Google_Pixel_8a_Aloe.jpg/250px-Google_Pixel_8a_Aloe.jpg",
-  "google pixel 8": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ee/Google_Pixel_8.jpg/250px-Google_Pixel_8.jpg",
-  "xiaomi redmi note 14": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6a/Xiaomi_Redmi_Note_13_Pro%2B.jpg/250px-Xiaomi_Redmi_Note_13_Pro%2B.jpg",
-  "xiaomi redmi note 13": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6a/Xiaomi_Redmi_Note_13_Pro%2B.jpg/250px-Xiaomi_Redmi_Note_13_Pro%2B.jpg",
-  "xiaomi 14": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e9/Xiaomi_14.jpg/250px-Xiaomi_14.jpg",
-  "oneplus 13": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d8/OnePlus_12.jpg/250px-OnePlus_12.jpg",
-  "oneplus 12": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d8/OnePlus_12.jpg/250px-OnePlus_12.jpg",
-  "motorola edge 50": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Motorola_Edge_50_Pro.jpg/250px-Motorola_Edge_50_Pro.jpg",
-  "motorola moto g85": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Motorola_Edge_50_Pro.jpg/250px-Motorola_Edge_50_Pro.jpg",
+  "iphone 16 pro": "https://store.storeimages.cdn-apple.com/4668/as-images.apple.com/is/iphone-16-pro-finish-select-202409-6-9inch-deserttitanium?wid=400&hei=400&fmt=jpeg&qlt=90",
+  "iphone 16": "https://store.storeimages.cdn-apple.com/4668/as-images.apple.com/is/iphone-16-finish-select-202409-6-1inch-ultramarine?wid=400&hei=400&fmt=jpeg&qlt=90",
+  "iphone 15 pro": "https://store.storeimages.cdn-apple.com/4668/as-images.apple.com/is/iphone-15-pro-finish-select-202309-6-1inch-naturaltitanium?wid=400&hei=400&fmt=jpeg&qlt=90",
+  "iphone 15": "https://store.storeimages.cdn-apple.com/4668/as-images.apple.com/is/iphone-15-finish-select-202309-6-1inch-pink?wid=400&hei=400&fmt=jpeg&qlt=90",
+  "iphone 14": "https://store.storeimages.cdn-apple.com/4668/as-images.apple.com/is/iphone-14-finish-select-202209-6-1inch-blue?wid=400&hei=400&fmt=jpeg&qlt=90",
+  "samsung galaxy s25 ultra": "https://images.samsung.com/is/image/samsung/p6pim/it/2501/gallery/it-galaxy-s25-ultra-s938-sm-s938bztheub-thumb-544359864?$650_519_PNG$",
+  "samsung galaxy s25": "https://images.samsung.com/is/image/samsung/p6pim/it/2501/gallery/it-galaxy-s25-s931-sm-s931bztheub-thumb-544359782?$650_519_PNG$",
+  "samsung galaxy s24 ultra": "https://images.samsung.com/is/image/samsung/p6pim/it/2401/gallery/it-galaxy-s24-ultra-s928-sm-s928bzkheub-thumb-539037836?$650_519_PNG$",
+  "samsung galaxy s24": "https://images.samsung.com/is/image/samsung/p6pim/it/2401/gallery/it-galaxy-s24-s921-sm-s921bzkheub-thumb-539037650?$650_519_PNG$",
+  "samsung galaxy a56": "https://images.samsung.com/is/image/samsung/p6pim/it/sm-a566blbaeub/gallery/it-galaxy-a56-5g-sm-a566-sm-a566blbaeub-thumb-552846046?$650_519_PNG$",
+  "samsung galaxy a55": "https://images.samsung.com/is/image/samsung/p6pim/it/sm-a556blbaeub/gallery/it-galaxy-a55-5g-sm-a556-sm-a556blbaeub-thumb-539558644?$650_519_PNG$",
+  "samsung galaxy a35": "https://images.samsung.com/is/image/samsung/p6pim/it/sm-a356blbaeub/gallery/it-galaxy-a35-5g-sm-a356-sm-a356blbaeub-thumb-539558377?$650_519_PNG$",
+  "samsung galaxy a16": "https://images.samsung.com/is/image/samsung/p6pim/it/sm-a166blbaeub/gallery/it-galaxy-a16-sm-a166b-sm-a166blbaeub-thumb-543803649?$650_519_PNG$",
+  "google pixel 9": "https://lh3.googleusercontent.com/mediadrake/AGgCaelMJT5HB3WzDe0YD0cCCE1MrCWvBMINGq6vVHRhqQbLRGg2p6cW3f0=s1024",
+  "google pixel 8a": "https://lh3.googleusercontent.com/mediadrake/AGgCaelkLxNVDgTZOhHJYv2RIaQj3P5B0TGt4vAmD_ky4yqeaGpVbOwUCQ=s1024",
+  "oneplus 13": "https://oasis.opstatics.com/content/dam/oasis/page/2024/na/oneplus-13/gallery/oneplus-13-silky-black-1.png",
+  "oneplus 12": "https://oasis.opstatics.com/content/dam/oasis/page/2024/na/oneplus-12/gallery/oneplus-12-silky-black-1.png",
 };
 
 // ─── HELPERS ─────────────────────────────────────────────────────────────────
 
 function findImage(name = "") {
   const lower = name.toLowerCase().trim();
-  // Ricerca esatta
   for (const [key, url] of Object.entries(PHONE_IMAGES)) {
     if (lower.includes(key)) return url;
   }
-  // Ricerca parziale per brand + modello
   const words = lower.split(" ").filter(w => w.length > 2);
   let bestUrl = null, bestScore = 0;
   for (const [key, url] of Object.entries(PHONE_IMAGES)) {
     const score = words.filter(w => key.includes(w)).length;
     if (score > bestScore) { bestScore = score; bestUrl = url; }
   }
-  return bestUrl || null;
+  return bestUrl;
 }
 
 function getBrandColor(name = "") {
@@ -93,7 +84,7 @@ function getBrandColor(name = "") {
 }
 
 function parsePrice(str = "") { return parseInt(str.replace(/[^0-9]/g, "")) || null; }
-function amazonUrl(name) { return `https://www.amazon.it/s?k=${encodeURIComponent(name)}&tag=TUOTAG-21`; }
+function amazonUrl(name) { return `https://www.amazon.it/s?k=${encodeURIComponent(name)}&tag=phonelab07c-21`; }
 function whatsappMsg(phones) {
   const top = phones[0];
   if (!top) return "";
